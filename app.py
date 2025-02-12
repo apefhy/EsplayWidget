@@ -121,25 +121,36 @@ def submit():
 def update_display(data):
     stats = calculate_stats(data)
 
+    # Set the text for the labels
     username_label.config(text=f"{stats['username']} ({stats['elo']})")
     kd_label.config(text=f"K/D: {stats['kd']}")
     adr_label.config(text=f"ADR: {stats['adr']}")
-    win_percentage_label.config(text=f"Win %: {stats['win_percentage']}")
-    hs_percentage_label.config(text=f"HS %: {stats['hs_percentage']}")
+    win_percentage_label.config(text=f"Win%: {stats['win_percentage']}")
+    hs_percentage_label.config(text=f"HS%: {stats['hs_percentage']}")
 
+    # Set the Elo image
     elo_image = PhotoImage(file=f"images/elo/{stats['elo_image']}")
     elo_image_label.config(image=elo_image)
     elo_image_label.image = elo_image
 
+    # Clear the grid before updating
+    for widget in widget_frame.grid_slaves():
+        widget.grid_forget()
+
+    # Elo image stays in the first column, spanning all three rows
     elo_image_label.grid(row=0, column=0, rowspan=3, sticky="nsew")
-    username_label.grid(row=0, column=1, sticky="w", padx=5, pady=1)
-    elo_label.grid(row=0, column=2, sticky="e", padx=5, pady=1)
 
+    # Name and Elo span columns 1-2 on row 0
+    username_label.grid(row=0, column=1, columnspan=2, sticky="w", padx=5, pady=1)
+    elo_label.grid(row=0, column=1, sticky="w", padx=0, pady=0)
+
+    # K/D and ADR on row 1
     kd_label.grid(row=1, column=1, sticky="w", padx=5, pady=1)
-    adr_label.grid(row=1, column=2, sticky="e", padx=5, pady=1)
+    adr_label.grid(row=1, column=2, sticky="w", padx=5, pady=1)
 
+    # Win% and HS% on row 2
     win_percentage_label.grid(row=2, column=1, sticky="w", padx=5, pady=1)
-    hs_percentage_label.grid(row=2, column=2, sticky="e", padx=5, pady=1)
+    hs_percentage_label.grid(row=2, column=2, sticky="w", padx=5, pady=1)
 
 root = tk.Tk()
 root.title("Username Fetcher")
@@ -156,12 +167,12 @@ submit_button.pack(pady=10)
 widget_frame = tk.Frame(root)
 widget_frame.pack(pady=20)
 
-widget_frame.grid_rowconfigure(0, weight=4)
-widget_frame.grid_rowconfigure(1, weight=1)
-widget_frame.grid_rowconfigure(2, weight=1)
-widget_frame.grid_columnconfigure(0, weight=1)
-widget_frame.grid_columnconfigure(1, weight=1)
-widget_frame.grid_columnconfigure(2, weight=1)
+widget_frame.grid_rowconfigure(0, weight=1)  # Row for Name and Elo
+widget_frame.grid_rowconfigure(1, weight=1)  # Row for K/D and ADR
+widget_frame.grid_rowconfigure(2, weight=1)  # Row for Win% and HS%
+widget_frame.grid_columnconfigure(0, weight=1)  # Image column (on the left)
+widget_frame.grid_columnconfigure(1, weight=2)  # Name and Stats columns (left part)
+widget_frame.grid_columnconfigure(2, weight=2)  # Stats columns (right part)
 
 elo_image_label = tk.Label(widget_frame)
 elo_image_label.grid(row=0, column=0, rowspan=3, sticky="nsew")
