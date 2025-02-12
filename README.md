@@ -10,3 +10,5 @@ Installation:
 1. Download zip and extract
 2. Run start_widget.bat (Starts the widget without CMD)
 3. Enter Esplay name and click submit
+
+The widget fetches your profile stats each 60th second.
