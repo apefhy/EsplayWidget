@@ -1,5 +1,5 @@
 # EsplayWidget
-Local stats widget for Esplay profiles
+Local stats widget for Esplay profiles.
 Want help? Join Discord on https://discord.akkeoh.com/
 
 Prerequisites:
